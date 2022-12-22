@@ -13,17 +13,48 @@ AudioPlayer song1; //creates "Play List" variable holding extensions WAV, AIFF, 
 void setup() {
   //size(500, 600); //Remind you of Display Geometry
   minim = new Minim(this); //load from data directory, loadFile should also load from project folder, like loadImage
-  song1 = minim.loadFile("../MusicDownload/Jingle Bells - DJ Williams.mp3");//able to pass absolute path, file name & extension, and URL
+  song1 = minim.loadFile("../MusicDownload/Banjo Short - Audionautix.mp3");//able to pass absolute path, file name & extension, and URL
 }//End setup
 //
-void draw() {}//End draw
+void draw() {
+}//End draw
 //
 void keyPressed() {
-  if ( key=='1' ) song1.play(); //Parameter is milli-seconds from start of audio file to start playing (illustrate with examples)
+  //if ( key=='1' ) song1.play(); //Parameter is milli-seconds from start of audio file to start playing (illustrate with examples)
+  if ( key=='1' ) {//Play Pause Stop Button
+    if ( song1.isPlaying() ) {
+      song1.pause();
+    } else if ( song1.position() >= song1.length()-song1.length()*1/5 ) {
+      song1.rewind();
+      song1.play();
+    } else {
+      song1.play();
+    }
+  }//End Play Pause Stop Button 
   int loopNum = 2; //Local Variable plays once and loops twice
-  if ( key=='L' || key=='l' ) song1.loop(loopNum); //Parameter is Parameter is number of repeats
+  if ( key=='L' || key=='l' ) song1.loop(loopNum-1); //Parameter is Parameter is number of repeats
+  if ( key=='I' || key=='i' ) song1.loop(-1); //Parameter is for infinite loops
+  //
+  if ( key=='F' || key=='f' ) song1.skip(1000);//skip forwards 1 second (1000 milliseconds)
+  if ( key=='R' || key=='r' ) song1.skip(-1000);//skip backwards 1 second, notice negative, (1000 milliseconds)
+  if ( key=='M' || key=='m' ) {//MUTE button
+    if ( song1.isMuted() ) {
+      song1.unmute();
+    } else {
+      song1.mute();
+    }
+  }//End Mute Button
+  if ( key=='S' || key=='s' ) {//STOP Button
+    if ( song1.isPlaying() ) {
+      song1.pause();
+      song1.rewind();//Cue SONG to play from beginning
+    } else {
+      song1.rewind();//Not plying means song is paused or song position is at the end
+    }
+  }//End STOP Button
 }//End keyPressed
 //
-void mouseClicked() {}//End mousePressed
+void mouseClicked() {
+}//End mousePressed
 //
 //End Main Program
